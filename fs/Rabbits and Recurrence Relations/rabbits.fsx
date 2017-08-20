@@ -13,10 +13,10 @@ let memoize f =
 let grow gen productionRate = 
   let rec g = memoize <| 
               function
-              | (1, _)        -> 1I
-              | (2, _)        -> 1I
-              | (gen, pr:int) -> g (gen - 1, pr) + bigint(pr) * g (gen - 2, pr)
-  g(gen, productionRate)        
+              | 1   -> 1I
+              | 2   -> 1I
+              | gen -> g (gen - 1) + bigint(productionRate:int) * g (gen - 2)
+  g gen
 
 let gen = 32
 let productionRate = 2
