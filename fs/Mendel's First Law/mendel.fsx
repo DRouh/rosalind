@@ -1,7 +1,6 @@
 let k = 29 // homozygous dominant: XX
 let m = 24 // heterozygous: Xx
 let n = 30 // homozygous recessive: xx
-let population = k + m + n
 
 let prob (k:int) m n =
   let kf = float k
