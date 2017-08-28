@@ -8,8 +8,6 @@ main = do
   print grew
 
 numRabbits :: Int -> Int -> Int
-numRabbits 0 _ = 0
-numRabbits 1 _ = 1
 numRabbits n m = sum alive
   where alive = foldl' f initialPopulation gen
         f population _ = next population
