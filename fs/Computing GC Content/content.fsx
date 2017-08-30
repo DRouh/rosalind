@@ -1,3 +1,6 @@
+#load "../fasta.fsx"
+open Fasta
+
 let input = System.IO.File.ReadAllText("rosalind_gc.txt")
 
 let mapSnd f (a, b) = (a, f b)
