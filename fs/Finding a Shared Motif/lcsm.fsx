@@ -12,6 +12,8 @@ type Trie<'a> =
 
 type TrieList<'a> = Trie<'a> list
 
+let flip f a b = f b a
+
 let empty : Trie<'a> list = []
 
 let findKey (key:'a) (xs: TrieList<'a>) : Trie<'a> option =
@@ -19,7 +21,7 @@ let findKey (key:'a) (xs: TrieList<'a>) : Trie<'a> option =
   xs |> List.tryFind byKey
 
 let rec findTrie' (k:Key<'a>) (ts: TrieList<'a>): Trie<'a> option =
-  let (>>=) a b = Option.bind b a
+  let (>>=) = flip Option.bind
   in match (k, ts) with
      | ([], _) -> None
      | ([x], tries) -> findKey x tries
@@ -41,3 +43,6 @@ let rec insert (k:Key<'a>) (ts:TrieList<'a>) : TrieList<'a> =
       let (Node (key, next, word)) = value
       in (Node (key, (insert xs next), (toggleWordEnd word))) :: except value
 
+let build (list: Key<'a> list) =
+  let buildTrie xs trie = List.fold (flip insert) trie xs
+  in buildTrie list []
