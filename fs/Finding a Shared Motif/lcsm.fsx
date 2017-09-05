@@ -1,48 +1,43 @@
-let str1 = "ABCXYZAYABCXYZAY"
-let str2 = "X"
+#load "../fasta.fsx"
+open Fasta
 
-let diag maxI maxJ (i, j) =
-  let boundary = min (maxI - i) (maxJ - j) - 1
-  [0..boundary] |> List.map (fun x -> (i + x, j + x))
+let input = System.IO.File.ReadAllText("rosalind_lcsm.txt")
+let read = input |> readFasta |> List.map snd
 
-let trimEndOfDiag (arr:int[,]) =
-  List.choose (fun (i, j) -> if arr.[i, j] <> 0 then Some (i, j) else None)
 
-let update a i j v = Array2D.set a (j + 1) (i + 1) v
+type Key<'a> = 'a list
 
-let toList (arr: 'a [,]) = arr |> Seq.cast<'a> |> Seq.toList
-let dec i = i - 1
+type Trie<'a> =
+  Node of 'a option * Trie<'a> list * bool
 
-let commonMotif (str1:string) (str2:string) =
-  let maxI = str2.Length + 1
-  let maxJ = str1.Length + 1
-  let arr = Array2D.zeroCreate maxI maxJ
+type TrieList<'a> = Trie<'a> list
 
-  let update' = update arr
-  let diag' = diag maxI maxJ
-  let trimEndOfDiag' = trimEndOfDiag arr
-  let select' i = str1.[i]
-  let stringByIndexes =
-    trimEndOfDiag' >> List.map (snd >> dec >> select') >> System.String.Concat
+let empty : Trie<'a> list = []
 
-  let startOfSubstring i j v = if v = 1 then Some (i, j) else None
+let findKey (key:'a) (xs: TrieList<'a>) : Trie<'a> option =
+  let byKey (Node (next, _, _)) = next = Some key
+  xs |> List.tryFind byKey
 
-  str1
-  |> Seq.iteri
-    (fun j c1 ->
-      str2 |>
-      Seq.iteri
-        (fun i c2 -> update' j i (if c1 = c2 then arr.[i, j] + 1 else 0)))
+let rec findTrie' (k:Key<'a>) (ts: TrieList<'a>): Trie<'a> option =
+  let (>>=) a b = Option.bind b a
+  in match (k, ts) with
+     | ([], _) -> None
+     | ([x], tries) -> findKey x tries
+     | (x::xs, tries) ->
+       let nextTrie xs (Node (_, next, _)) = findTrie' xs next
+       in findKey x tries >>= nextTrie xs
 
-  let indexes =
-    arr
-    |> Array2D.mapi startOfSubstring
-    |> toList
-    |> List.choose id
+let rec insert (k:Key<'a>) (ts:TrieList<'a>) : TrieList<'a> =
+  match (k, ts) with
+  | ([], t) -> t
+  | (x::xs, tries) ->
+    let isEndWord = xs = []
+    let except v = tries |> List.filter ((<>) v)
+    let toggleWordEnd old = isEndWord || old
+    in
+    match findKey x tries with
+    | None -> (Node ((Some x), (insert xs []), isEndWord)) :: tries
+    | Some value ->
+      let (Node (key, next, word)) = value
+      in (Node (key, (insert xs next), (toggleWordEnd word))) :: except value
 
-  indexes
-  |> List.map (diag' >> stringByIndexes)
-  |> List.distinct
-  |> List.sortByDescending (fun x -> x.Length)
-
-commonMotif str1 str2
