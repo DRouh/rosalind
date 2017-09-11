@@ -1,6 +1,15 @@
 let flip f a b = f b a
 let const' a b = a
 let ($) f a = f a
+let init: 'a list -> 'a list =
+  let rec loop ra = function
+    | [] -> failwith "empty list"
+    | x::xs ->
+      match xs with
+      | [] -> List.rev ra
+      | _ -> loop (x::ra) xs
+  in loop []
+
 let rec tails = function
  | []-> [[]]
  | _::xs as x -> x :: tails xs
@@ -18,7 +27,7 @@ let insertWith f key value map =
     in Map.add key newValue map
 
 let buildTrie (s:string) =
-  let ts = s |> List.ofSeq |> tails
+  let ts = s |> List.ofSeq |> tails |> init
   let len = s.Length
 
   let loop c run =
@@ -27,10 +36,10 @@ let buildTrie (s:string) =
 
   let go run chars i (Node ns) =
     let tr =
-      let addLeaf = Map.add None (Leaf (i - 1))
+      let addLeaf = Map.add None $ Leaf (i - 1)
       in List.foldBack loop chars addLeaf $ ns
     in run (i - 1) (Node $ tr)
 
   in List.fold go (flip const') ts len $ Node empty
 
-buildTrie "banana"
+buildTrie "bana"
