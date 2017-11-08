@@ -1,12 +1,8 @@
 #load "../codon.fsx"
+#load "../lib.fsx"
 open System
 open Codon
-
-let sequence xs =
-    let f x acc = match x, acc with
-                  | Some x, Some list -> Some (x :: list)
-                  | _                 -> None
-    List.foldBack f xs (Some [])
+open Lib
 
 let mapRnaToCodonString:seq<string> -> string list option =
     Seq.map (mapRnaCodon)
@@ -14,7 +10,6 @@ let mapRnaToCodonString:seq<string> -> string list option =
     >> List.ofSeq
     >> sequence
 
-let getOrElse o d = match o with Some v -> v | None -> d
 let input = System.IO.File.ReadAllText("rosalind_prot.txt")
 
 let triples = input
