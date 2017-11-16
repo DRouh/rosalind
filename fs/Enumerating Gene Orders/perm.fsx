@@ -20,6 +20,16 @@ let permutations n =
 
   in permutations' [1..n]
 
+let permutationsFixedHead n =
+  let remove v l = List.filter ((<>) v) l
+  let rec permutations' = function
+    | [] -> []
+    | [v] -> [[v]]
+    | l ->
+      let go acc v =
+        acc @ (l |> remove v |> permutations' |> List.map (fun p -> v::p))
+      in List.fold go [] l
+  in permutations' [1..n]
 
 let formatOutput ps count =
   let start = sprintf "%i" count
