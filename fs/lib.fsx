@@ -1,6 +1,7 @@
 module Lib
 
 open System.Text.RegularExpressions
+open System.Collections.Generic
 
 let sequence xs =
     let f x acc = match x, acc with
@@ -30,3 +31,16 @@ let takeWhileInc cond s =
 
 let triples: string -> System.String [] =
   Array.ofSeq >> Array.chunkBySize 3 >> Array.map System.String
+
+let rec tails = function
+  | []-> [[]]
+  | _::xs as x -> x :: tails xs
+
+let concatStr (xs: char IEnumerable) = System.String.Concat xs
+let strToChars (xs:string) = xs.ToCharArray() |> Seq.ofArray
+let swap (a, b) = b, a
+
+let inc = (+) 1
+
+let onFst f (a, b) = (f a, b)
+let onSnd f (a, b) = (a, f b)
