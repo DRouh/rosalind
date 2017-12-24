@@ -71,9 +71,10 @@ module ProteinFunctions
         >> sequence
 
     let fromRna: Rna -> Protein option =
-      (function Rna s -> s)
+      Rna.get
       >> triples
       >> rnaToProtein
       >> Option.map (List.fold (+) "" >> create)
+
     let fromDna: Dna -> Protein option =
       Rna.fromDna >> fromRna
