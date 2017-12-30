@@ -1,0 +1,34 @@
+name:                rosalindutils
+version:             0.1.0.0
+author:              Dime Rouh
+maintainer:          dimerouh@gmail.com
+copyright:           2017 Dime Rouh
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     RosalindUtils
+  build-depends:       base >= 4 && < 5,
+                       containers,
+                       split
+  ghc-options:         -Wall -fwarn-tabs
+  default-language:    Haskell2010
+  other-modules:
+    RosalindUtils.Codon,
+    RosalindUtils.Dna,
+    RosalindUtils.Rna,
+    RosalindUtils.Types
+
+test-suite rosalindutils-tests
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base,
+                       rosalindutils,
+                       hspec >= 2.4.4 && < 2.5,
+                       QuickCheck >= 2.9.2 && < 3
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+  other-modules:
+      Specs.TestSpec
