@@ -2,13 +2,16 @@ module RosalindUtils
     (
       module RosalindUtils.Fasta,
       Protein,
+      D.Dna,
+      R.Rna,
       createProtein,
       dnaToRna,
       rnaToDna,
       fromRna,
       fromDna,
       R.createRna,
-      D.createDna
+      D.createDna,
+      D.applyToDna
     ) where
 
 import RosalindUtils.Fasta

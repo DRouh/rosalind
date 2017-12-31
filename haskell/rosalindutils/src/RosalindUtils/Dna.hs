@@ -1,11 +1,14 @@
+{-# LANGUAGE OverloadedStrings #-}
 module RosalindUtils.Dna
     (
       Dna (..),
       DnaNucleo (..),
-      createDna
+      createDna,
+      applyToDna
     ) where
 
 import Text.Read
+import qualified Data.Text as T
 
 data DnaNucleo =
   A | C | G | T
@@ -21,3 +24,12 @@ createDna s =
   Dna <$> mapM readNucleos strings
   where strings = [[c] :: String | c <- s]
         readNucleos x = readMaybe x :: Maybe DnaNucleo
+
+fromText :: T.Text -> Maybe Dna
+fromText = createDna . T.unpack
+
+asText :: Dna -> T.Text
+asText (Dna d)  = T.pack $ concatMap show d
+
+applyToDna :: (T.Text -> T.Text) -> Dna -> Maybe Dna
+applyToDna f d = fromText $ f (asText d)
