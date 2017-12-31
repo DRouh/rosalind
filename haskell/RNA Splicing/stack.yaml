@@ -1,0 +1,6 @@
+resolver: lts-9.17
+packages:
+- .
+- ../rosalindutils
+extra-deps:
+- portable-lines-0.1
