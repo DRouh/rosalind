@@ -1,13 +1,15 @@
 module RosalindUtils
     (
-      module RosalindUtils.Types,
+      Protein,
+      createProtein,
       dnaToRna,
       fromRna,
       fromDna,
       R.createRna,
+      D.createDna
     ) where
 
-import RosalindUtils.Types
+import RosalindUtils.Protein
 import RosalindUtils.Codon
 import qualified RosalindUtils.Dna as D
 import qualified RosalindUtils.Rna as R

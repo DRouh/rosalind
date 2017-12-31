@@ -1,9 +1,11 @@
-module RosalindUtils.Types
+module RosalindUtils.Protein
     (
       AminoAcid (..),
-      RnaCodon (RnaCodon),
-      Protein (Protein)
+      Protein (Protein),
+      createProtein
     ) where
+
+import Text.Read
 
 newtype Protein =
   Protein [AminoAcid] deriving (Eq, Ord)
@@ -16,5 +18,8 @@ data AminoAcid =
   M | F | P | S | T | W | Y | V | Stop
   deriving (Read, Show, Eq, Ord)
 
-newtype RnaCodon =
-  RnaCodon String deriving (Show, Eq, Ord)
+createProtein :: String -> Maybe Protein
+createProtein s =
+  Protein <$> mapM readAminos strings
+  where strings = [[c] :: String | c <- s]
+        readAminos x = readMaybe x :: Maybe AminoAcid

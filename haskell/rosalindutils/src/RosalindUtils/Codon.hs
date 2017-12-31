@@ -1,5 +1,6 @@
 module RosalindUtils.Codon
     (
+      RnaCodon,
       rnaToAmino,
       rnaToCodons,
     ) where
@@ -7,8 +8,11 @@ import Data.List.Split
 import qualified Data.Map as M
 import Control.Arrow
 
-import RosalindUtils.Types
+import RosalindUtils.Protein
 import qualified RosalindUtils.Rna as R
+
+newtype RnaCodon =
+  RnaCodon String deriving (Show, Eq, Ord)
 
 codonTable :: M.Map RnaCodon AminoAcid
 codonTable = M.fromList $ map (first RnaCodon) t

@@ -4,13 +4,17 @@ module RosalindUtils.Rna
       RnaNucleo (..),
       createRna
     ) where
+      
 import Text.Read
 
 data RnaNucleo =
   A | C | G | U
   deriving (Read, Show, Eq, Ord)
 
-newtype Rna = Rna [RnaNucleo] deriving (Show, Eq, Ord)
+newtype Rna = Rna [RnaNucleo] deriving (Eq, Ord)
+
+instance Show Rna where
+  show (Rna s) = concatMap show s
 
 createRna :: String -> Maybe Rna
 createRna s =

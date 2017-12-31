@@ -18,7 +18,7 @@ library
     RosalindUtils.Codon,
     RosalindUtils.Dna,
     RosalindUtils.Rna,
-    RosalindUtils.Types
+    RosalindUtils.Protein
 
 test-suite rosalindutils-tests
   type:                exitcode-stdio-1.0
@@ -31,4 +31,4 @@ test-suite rosalindutils-tests
   ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
   other-modules:
-      Specs.TestSpec
+      Specs.TypesSpec
