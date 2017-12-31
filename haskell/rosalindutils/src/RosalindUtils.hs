@@ -3,6 +3,7 @@ module RosalindUtils
       Protein,
       createProtein,
       dnaToRna,
+      rnaToDna,
       fromRna,
       fromDna,
       R.createRna,
@@ -17,6 +18,11 @@ import qualified RosalindUtils.Rna as R
 dnaToRna :: D.Dna -> R.Rna
 dnaToRna (D.Dna dna) = R.Rna $ map transcribe dna
   where transcribe D.T = R.U
+        transcribe x = read $ show x
+
+rnaToDna :: R.Rna -> D.Dna
+rnaToDna (R.Rna dna) = D.Dna $ map transcribe dna
+  where transcribe R.U = D.T
         transcribe x = read $ show x
 
 fromRna :: R.Rna -> Maybe Protein
