@@ -1,5 +1,6 @@
 module RosalindUtils
     (
+      module RosalindUtils.Fasta,
       Protein,
       createProtein,
       dnaToRna,
@@ -10,6 +11,7 @@ module RosalindUtils
       D.createDna
     ) where
 
+import RosalindUtils.Fasta
 import RosalindUtils.Protein
 import RosalindUtils.Codon
 import qualified RosalindUtils.Dna as D

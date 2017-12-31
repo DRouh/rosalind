@@ -21,7 +21,7 @@ genString = listOf
 
 spec :: Spec
 spec =
-  describe "utils" $ do
+  describe "Types" $ do
     let inputProtein = "MAMAPRTEINSTRING"
     let inputRna = "AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA"
     let inputDna = "ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA"
